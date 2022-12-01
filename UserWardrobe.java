@@ -41,12 +41,12 @@ public class UserWardrobe {
 
     //takes category as input and will return a string array
     //of the items that fit the input category
-    public String[] getItemsByCategory(Categories category){
-        String[] categorizedItemNames = new String[wardrobe.size()];
+    public Object[] getItemsByCategory(Categories category){
+        Object[] categorizedItemNames = new Object[wardrobe.size()];
 
         for(int i = 0; i < wardrobe.size(); i++){
             if(wardrobe.get(i).getCategories() == category){
-                categorizedItemNames[i] = wardrobe.get(i).getName();
+                categorizedItemNames[i] = wardrobe.get(i);
             }
             
         }
@@ -60,7 +60,7 @@ public class UserWardrobe {
     String brand, String color, Categories category, Types type, int id){
         //Parameters of Clothing class
         //(String name, String description, int quantity, String size, String brand, String color, Categories category, Types type, int id)
-        Clothing clothingItem = new Clothing(name, description, quantity, size, brand, color, category, type, id);
+        Clothing clothingItem = new Clothing(name, description, quantity, size, brand, color, category, type);
         
         wardrobe.add(clothingItem);
 

@@ -1,16 +1,14 @@
 import java.io.Writer;
 import java.util.*;
 
-import javax.sound.sampled.SourceDataLine;
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
+import javax.swing.event.*;
+//import javax.swing.event.ListSelectionEvent;
+//import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+
 
 
 public class FrontPage implements ActionListener, ListSelectionListener{
@@ -25,7 +23,8 @@ private JPanel searchBarArea;
 private JPanel navBar;
 private JPanel mainArea;
 private JPanel itemListArea;
-private JList<String> itemList;
+private JPanel wardrobeButtonsArea;
+private JList<Object> itemList;
 private JScrollPane scrollableItemList;
 private JPanel footerArea;
 private Button allButton;
@@ -37,6 +36,10 @@ private Button accessoriesButton;
 private Button undergarmentsButton;
 private Button onepieceButton;
 private JEditorPane itemDescription;
+private JLabel wardrobeButtonsLabel;
+private Button addClothingItem;
+private Button editClothingItem;
+private Button deleteClothingItem;
 
 //default constructor
 public FrontPage(){
@@ -46,7 +49,6 @@ public FrontPage(){
 public FrontPage(UserWardrobe user){
     this.user = user;
     initialize();
-  
 }
 
 
@@ -139,8 +141,12 @@ public void initialize(){
 
        //----------------ITEM LIST AREA---------------------
        //scollableItemList will be the list displayed on the JFrame
-       itemList.setListData(user.getWardrobeItemNames());
-       scrollableItemList.setBounds(160, 80, 300, 300);
+
+       //try putting in the clothing objects themselves into the JList
+       //then create a method for only displaying the object's name in the JList
+       itemList.setListData(user.getWardrobe().toArray());
+       //System.out.println(user.getWardrobe().toArray().getClass());
+       scrollableItemList.setBounds(200, 80, 300, 300);
        //listen to changes in the itemList
        itemList.addListSelectionListener(this);
 
@@ -148,31 +154,56 @@ public void initialize(){
        //----------------ITEM DESCRIPTION AREA---------------------
        itemDescription = new JEditorPane();
        itemDescription.setBackground(Color.WHITE);
-       itemDescription.setBounds(560, 80, 300, 300);
+       itemDescription.setBounds(520, 80, 300, 300);
        
        //itemDescription.setLineWrap(true);
        //prevents the text area from being editable
        itemDescription.setEditable(false);
        //insets is an object that represents the margins of a container
        itemDescription.setMargin(new Insets(10, 10, 10, 10));
-       mainArea.add(scrollableItemList);
-       mainArea.add(itemDescription);
+
+        //----------------WARDROBE EDIT AREA---------------------
+        wardrobeButtonsArea = new JPanel();
+        wardrobeButtonsArea.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 5));
+        wardrobeButtonsArea.setBackground(Color.CYAN);
+        wardrobeButtonsArea.setBounds(860, 140, 100, 140);
+        wardrobeButtonsLabel = new JLabel("Wardrobe Options");
+        wardrobeButtonsLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
+        addClothingItem = new Button("Add");
+        editClothingItem = new Button("Edit");
+        editClothingItem.setEnabled(false);
+        deleteClothingItem = new Button("Delete");
+        deleteClothingItem.setEnabled(false);
+        wardrobeButtonsArea.add(wardrobeButtonsLabel);
+        wardrobeButtonsArea.add(addClothingItem);
+        wardrobeButtonsArea.add(editClothingItem);
+        wardrobeButtonsArea.add(deleteClothingItem);
+
+        //giving buttons action listeners
+        addClothingItem.addActionListener(this);
+        editClothingItem.addActionListener(this);
+        deleteClothingItem.addActionListener(this);
+
+
+        //Add components to mainArea 
+        mainArea.add(scrollableItemList);
+        mainArea.add(itemDescription);
+        mainArea.add(wardrobeButtonsArea);
        
        
 
 
 
 
-       //this final puts everything into the main frame
+       //this finally puts everything into the main frame
        footerArea.setBackground(Color.RED);
+       frame.add(searchAndNav, BorderLayout.NORTH);
        frame.add(mainArea, BorderLayout.CENTER);
        frame.add(footerArea, BorderLayout.SOUTH);
-       frame.add(searchAndNav, BorderLayout.NORTH);
-
        
-       //frame.add(panel);
 
-       //frame.add(button2);
+
+       //make frame visible
        frame.setVisible(true);
        //just using setBackground will not work for setting color
        frame.getContentPane().setBackground(new Color(173,173,173));
@@ -187,55 +218,96 @@ public void actionPerformed(ActionEvent e) {
     
     //if the ALL button is clicked, displays all items in wardrobe 
     if(e.getSource() == allButton){
-        itemList.setListData(user.getWardrobeItemNames());
+        itemList.setListData(user.getWardrobe().toArray());
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
     }
 
     //if the TOPS button is clicked, displays items in TOP category
     if(e.getSource() == topsButton){
-        String[] tops = user.getItemsByCategory(Categories.TOP);
+        Object[] tops = user.getItemsByCategory(Categories.TOP);
+        //weird error coming from setting the list data?
         itemList.setListData(tops);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
         
     }
     //if the BOTTOMS button is clicked, displays items in BOTTOM category
     if(e.getSource() == bottomsButton){
-        String[] bottoms = user.getItemsByCategory(Categories.BOTTOM);
+        Object[] bottoms = user.getItemsByCategory(Categories.BOTTOM);
         itemList.setListData(bottoms);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
         
     }
 
     //if the FOOTWEAR button is clicked, displays items in FOOTWEAR category
     if(e.getSource() == footwearButton){
-        String[] footwear = user.getItemsByCategory(Categories.FOOTWEAR);
+        Object[] footwear = user.getItemsByCategory(Categories.FOOTWEAR);
         itemList.setListData(footwear);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
         
     }
 
     //if the OUTERWEAR button is clicked, displays items in OUTERWEAR category
     if(e.getSource() == outerwearButton){
-        String[] outerwear = user.getItemsByCategory(Categories.OUTERWEAR);
+        Object[] outerwear = user.getItemsByCategory(Categories.OUTERWEAR);
         itemList.setListData(outerwear);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
             
     }
 
     //if the ACCESSORIES button is clicked, displays items in ACCESSORIES category
     if(e.getSource() == accessoriesButton){
-        String[] accessories = user.getItemsByCategory(Categories.ACCESSORIES);
+        Object[] accessories = user.getItemsByCategory(Categories.ACCESSORIES);
         itemList.setListData(accessories);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
             
     }
 
     //if the UNDERGARMENTS button is clicked, displays items in UNDERGARMENTS category
     if(e.getSource() == undergarmentsButton){
-        String[] undergarments = user.getItemsByCategory(Categories.UNDERGARMENTS);
+        Object[] undergarments = user.getItemsByCategory(Categories.UNDERGARMENTS);
         itemList.setListData(undergarments);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
             
     }
 
     //if the ONE_PIECE button is clicked, displays items in ONE PIECE category
     if(e.getSource() == onepieceButton){
-        String[] onepiece = user.getItemsByCategory(Categories.ONE_PIECE);
+        Object[] onepiece = user.getItemsByCategory(Categories.ONE_PIECE);
         itemList.setListData(onepiece);
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
             
+    }
+
+    if(e.getSource() == addClothingItem){
+        AddClothingItemPage add = new AddClothingItemPage(user);
+        frame.setVisible(false);
+        frame.dispose();
+    }
+
+    //delete clothing item button
+    if(e.getSource() == deleteClothingItem){
+        int input = JOptionPane.showConfirmDialog(frame,"Are you sure you want to delete?");  
+
+        if(input == JOptionPane.YES_OPTION){
+
+            //casts selected object to a clothing object and extracts ID value to delete
+            Clothing selectedClothingPiece = (Clothing) itemList.getSelectedValue();
+            user.removeClothingItem(selectedClothingPiece.getId());
+
+            //"refreshes the page" but disposing the old and create a new JFrame
+            FrontPage refresh = new FrontPage(user);
+            frame.setVisible(false);
+            frame.dispose();
+        }
+
     }
 }
 
@@ -244,26 +316,27 @@ public void valueChanged(ListSelectionEvent e) {
 
     //do something only until the value stops adjusting 
     if(!e.getValueIsAdjusting()){
+        editClothingItem.setEnabled(true);
+        deleteClothingItem.setEnabled(true);
 
-        ArrayList <Clothing> wardrobe = user.getWardrobe();
+        //cast selected value back to a Clothing object to use its getters and setters
+        Clothing selectedClothingPiece = (Clothing) itemList.getSelectedValue();
+        System.out.println(selectedClothingPiece.getId());
 
        
-        for(int i = 0; i < wardrobe.size(); i++){
-            if(wardrobe.get(i).getName() == this.itemList.getSelectedValue()){
-                itemDescription.setText(wardrobe.get(i).getName() + "\n"
-                + "\n" + "Description: " + wardrobe.get(i).getDescription() + "\n"
-                + "Quantity: " + wardrobe.get(i).getQuantitiy() + "\n"
-                + "Size: " + wardrobe.get(i).getSize() + "\n"
-                + "Brand: " + wardrobe.get(i).getBrand() + "\n"
-                + "Color: " + wardrobe.get(i).getColor() + "\n"
-                + "Category: " + wardrobe.get(i).getCategories() + "\n"
-                + "Type: " + wardrobe.get(i).getType() + "\n"
-                + "ID: " + wardrobe.get(i).getId());
+        //format and description in itemDescription JEditorPane
 
-                break;
-            }
-            
-        }
+        itemDescription.setText(selectedClothingPiece.getName() + "\n"
+                + "\n" + "Description: " + selectedClothingPiece.getDescription() + "\n"
+                + "Quantity: " + selectedClothingPiece.getQuantitiy() + "\n"
+                + "Size: " + selectedClothingPiece.getSize() + "\n"
+                + "Brand: " + selectedClothingPiece.getBrand() + "\n"
+                + "Color: " + selectedClothingPiece.getColor() + "\n"
+                + "Category: " + selectedClothingPiece.getCategories() + "\n"
+                + "Type: " + selectedClothingPiece.getType() + "\n"
+                + "ID: " + selectedClothingPiece.getId());
+
+
         
     }
     
