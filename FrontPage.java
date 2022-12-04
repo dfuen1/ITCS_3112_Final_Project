@@ -40,6 +40,7 @@ private JLabel wardrobeButtonsLabel;
 private Button addClothingItem;
 private Button editClothingItem;
 private Button deleteClothingItem;
+private JLabel tabIndicator;
 
 //default constructor
 public FrontPage(){
@@ -137,6 +138,11 @@ public void initialize(){
        //since the app will always open with the inventory displayed
        mainArea.setLayout(null);
        mainArea.setBackground(Color.PINK);
+       tabIndicator = new JLabel("All");
+       //tabIndicator.setBorder(BorderFactory.createLineBorder(Color.black));
+       tabIndicator.setBounds(200, 30, 300, 50);
+       tabIndicator.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+       mainArea.add(tabIndicator);
        //mainArea.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 5));
 
        //----------------ITEM LIST AREA---------------------
@@ -145,7 +151,6 @@ public void initialize(){
        //try putting in the clothing objects themselves into the JList
        //then create a method for only displaying the object's name in the JList
        itemList.setListData(user.getWardrobe().toArray());
-       //System.out.println(user.getWardrobe().toArray().getClass());
        scrollableItemList.setBounds(200, 80, 300, 300);
        //listen to changes in the itemList
        itemList.addListSelectionListener(this);
@@ -218,6 +223,8 @@ public void actionPerformed(ActionEvent e) {
     
     //if the ALL button is clicked, displays all items in wardrobe 
     if(e.getSource() == allButton){
+        tabIndicator.setText("All");
+        itemDescription.setText(" ");
         itemList.setListData(user.getWardrobe().toArray());
         editClothingItem.setEnabled(false);
         deleteClothingItem.setEnabled(false);
@@ -225,8 +232,9 @@ public void actionPerformed(ActionEvent e) {
 
     //if the TOPS button is clicked, displays items in TOP category
     if(e.getSource() == topsButton){
+        tabIndicator.setText("Tops");
+        itemDescription.setText(" ");
         Object[] tops = user.getItemsByCategory(Categories.TOP);
-        //weird error coming from setting the list data?
         itemList.setListData(tops);
         editClothingItem.setEnabled(false);
         deleteClothingItem.setEnabled(false);
@@ -234,6 +242,8 @@ public void actionPerformed(ActionEvent e) {
     }
     //if the BOTTOMS button is clicked, displays items in BOTTOM category
     if(e.getSource() == bottomsButton){
+        tabIndicator.setText("Bottoms");
+        itemDescription.setText(" ");
         Object[] bottoms = user.getItemsByCategory(Categories.BOTTOM);
         itemList.setListData(bottoms);
         editClothingItem.setEnabled(false);
@@ -243,6 +253,8 @@ public void actionPerformed(ActionEvent e) {
 
     //if the FOOTWEAR button is clicked, displays items in FOOTWEAR category
     if(e.getSource() == footwearButton){
+        tabIndicator.setText("Footwear");
+        itemDescription.setText(" ");
         Object[] footwear = user.getItemsByCategory(Categories.FOOTWEAR);
         itemList.setListData(footwear);
         editClothingItem.setEnabled(false);
@@ -252,6 +264,8 @@ public void actionPerformed(ActionEvent e) {
 
     //if the OUTERWEAR button is clicked, displays items in OUTERWEAR category
     if(e.getSource() == outerwearButton){
+        tabIndicator.setText("Outerwear");
+        itemDescription.setText(" ");
         Object[] outerwear = user.getItemsByCategory(Categories.OUTERWEAR);
         itemList.setListData(outerwear);
         editClothingItem.setEnabled(false);
@@ -261,6 +275,8 @@ public void actionPerformed(ActionEvent e) {
 
     //if the ACCESSORIES button is clicked, displays items in ACCESSORIES category
     if(e.getSource() == accessoriesButton){
+        tabIndicator.setText("Accessories");
+        itemDescription.setText(" ");
         Object[] accessories = user.getItemsByCategory(Categories.ACCESSORIES);
         itemList.setListData(accessories);
         editClothingItem.setEnabled(false);
@@ -270,6 +286,8 @@ public void actionPerformed(ActionEvent e) {
 
     //if the UNDERGARMENTS button is clicked, displays items in UNDERGARMENTS category
     if(e.getSource() == undergarmentsButton){
+        tabIndicator.setText("Undergarments");
+        itemDescription.setText(" ");
         Object[] undergarments = user.getItemsByCategory(Categories.UNDERGARMENTS);
         itemList.setListData(undergarments);
         editClothingItem.setEnabled(false);
@@ -279,6 +297,8 @@ public void actionPerformed(ActionEvent e) {
 
     //if the ONE_PIECE button is clicked, displays items in ONE PIECE category
     if(e.getSource() == onepieceButton){
+        tabIndicator.setText("One Piece");
+        itemDescription.setText(" ");
         Object[] onepiece = user.getItemsByCategory(Categories.ONE_PIECE);
         itemList.setListData(onepiece);
         editClothingItem.setEnabled(false);
@@ -315,12 +335,14 @@ public void actionPerformed(ActionEvent e) {
 public void valueChanged(ListSelectionEvent e) {
 
     //do something only until the value stops adjusting 
-    if(!e.getValueIsAdjusting()){
+    //when changing itemList data, the selected index will be set to -1, which causes a null pointer exception
+    //the second condition of the if statement stops this issue from happening
+    if(!(e.getValueIsAdjusting()) && !(itemList.getSelectedIndex() == -1)){
         editClothingItem.setEnabled(true);
         deleteClothingItem.setEnabled(true);
 
         //cast selected value back to a Clothing object to use its getters and setters
-        Clothing selectedClothingPiece = (Clothing) itemList.getSelectedValue();
+        Clothing selectedClothingPiece = ((Clothing) itemList.getSelectedValue());
         System.out.println(selectedClothingPiece.getId());
 
        
@@ -339,6 +361,7 @@ public void valueChanged(ListSelectionEvent e) {
 
         
     }
+
     
 }
 

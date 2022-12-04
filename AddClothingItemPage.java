@@ -11,6 +11,15 @@ public class AddClothingItemPage implements ActionListener{
     private JFrame frame;
     private JComboBox <Categories> categoryChoices;
     private JComboBox <Types> typeChoices;
+    private Button backButton;
+    private JTextField nameField;
+    private JTextField descriptionField;
+    private JTextField quantityField;
+    private JTextField sizeField;
+    private JTextField brandField;
+    private JTextField colorField;
+    private Button addClothingItemButton;
+    private JSpinner quantityOfItem;
 
     //default constructor
     public AddClothingItemPage(){
@@ -29,6 +38,7 @@ public class AddClothingItemPage implements ActionListener{
         frame = new JFrame();
        //width and height
        frame.setSize(1000, 600);
+       frame.getContentPane().setBackground(new Color(173, 173, 173));
        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        frame.setTitle("Wardrobe Tracker");
        frame.setResizable(false);
@@ -41,6 +51,7 @@ public class AddClothingItemPage implements ActionListener{
        JLabel titleLabel = new JLabel("Enter New Piece Info:");
        titleLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
        titlePanel.add(titleLabel);
+       titlePanel.setBounds(600, 0, 300, 50);
        
        
 
@@ -48,31 +59,38 @@ public class AddClothingItemPage implements ActionListener{
        JPanel namePanel = new JPanel();
        namePanel.setBackground(new Color(173,173,173));
        JLabel nameLabel = new JLabel("Name:");
-       JTextField nameField = new JTextField(30);
+       nameField = new JTextField(30);
+       //nameField.setText("d");
        namePanel.add(nameLabel);
        namePanel.add(nameField);
 
        //------------------DESCRIPTION PANEL-----------------------
        JPanel descriptionPanel = new JPanel();
-       descriptionPanel.setBackground(Color.ORANGE);
+       descriptionPanel.setBackground(new Color(173,173,173));
        JLabel descriptionLabel = new JLabel("Description:");
-       JTextField descriptionField = new JTextField(30);
+       descriptionField = new JTextField(30);
        descriptionPanel.add(descriptionLabel);
        descriptionPanel.add(descriptionField);
 
        //------------------QUANTITY PANEL-----------------------
        JPanel quantityPanel = new JPanel();
+       //quantityPanel.setLayout(BorderLayout.CENTER);
        quantityPanel.setBackground(new Color(173,173,173));
        JLabel quantityLabel = new JLabel("Quantity:");
-       JTextField quantityField = new JTextField(30);
+       //quantityField = new JTextField(30);
+       //quantityField.setText(" ");
+       //i don't think someone will have more than 100,000 of the same piece of clothing in their closet
+       quantityOfItem = new JSpinner(new SpinnerNumberModel(1, 1, 100000, 1));
+       quantityOfItem.setPreferredSize(new Dimension(100, 30));
        quantityPanel.add(quantityLabel);
-       quantityPanel.add(quantityField);
+       quantityPanel.add(quantityOfItem);
+       //quantityPanel.add(quantityField);
 
        //------------------SIZE PANEL-----------------------
        JPanel sizePanel = new JPanel();
        sizePanel.setBackground(new Color(173,173,173));
        JLabel sizeLabel = new JLabel("Size:");
-       JTextField sizeField = new JTextField(30);
+       sizeField = new JTextField(30);
        sizePanel.add(sizeLabel);
        sizePanel.add(sizeField);
 
@@ -81,7 +99,7 @@ public class AddClothingItemPage implements ActionListener{
        JPanel brandPanel = new JPanel();
        brandPanel.setBackground(new Color(173,173,173));
        JLabel brandLabel = new JLabel("Brand:");
-       JTextField brandField = new JTextField(30);
+       brandField = new JTextField(30);
        brandPanel.add(brandLabel);
        brandPanel.add(brandField);
 
@@ -90,7 +108,7 @@ public class AddClothingItemPage implements ActionListener{
        JPanel colorPanel = new JPanel();
        colorPanel.setBackground(new Color(173,173,173));
        JLabel colorLabel = new JLabel("Color:");
-       JTextField colorField = new JTextField(30);
+       colorField = new JTextField(30);
        colorPanel.add(colorLabel);
        colorPanel.add(colorField);
 
@@ -122,23 +140,34 @@ public class AddClothingItemPage implements ActionListener{
         //Add button panel
         JPanel addButtonPanel = new JPanel();
         addButtonPanel.setBackground(new Color(173, 173, 173));
-        Button addClothingItemButton = new Button("Add Item");
+        addClothingItemButton = new Button("Add Item");
+        addClothingItemButton.addActionListener(this);
         addButtonPanel.add(addClothingItemButton);
 
 
 
        Box form = Box.createVerticalBox();
+       //form.setSize(300, 572);
+       //JPanel form = new JPanel();
+       //form.setLayout(new FlowLayout(FlowLayout.CENTER));
        JPanel leftMargin = new JPanel();
-       leftMargin.setBackground(Color.RED);
+       leftMargin.setBackground(new Color(173, 173, 173));
        JPanel rightMargin = new JPanel();
-       rightMargin.setBackground(Color.RED);
+       rightMargin.setBackground(new Color(173, 173, 173));
        JPanel topMargin = new JPanel();
-       topMargin.setBackground(Color.RED);
-       Button backButton = new Button("Back");
-       topMargin.add(backButton, BorderLayout.WEST);
+       topMargin.setBackground(new Color(50, 90, 156));
+       topMargin.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 6));
+       //topMargin.setSize(600, 300);
+       backButton = new Button("Back");
+       //give button a listener
+       backButton.addActionListener(this);
+       
+       topMargin.add(backButton);
 
        //panels are added
-       form.add(topMargin, BorderLayout.WEST); 
+       //approximate dimensions of the form area:
+       //x: 980,  y:572
+       form.add(topMargin); 
        form.add(titlePanel);
        form.add(namePanel);
        form.add(descriptionPanel);
@@ -150,10 +179,16 @@ public class AddClothingItemPage implements ActionListener{
        form.add(typePanel);
        form.add(addButtonPanel);
 
-       frame.add(form, BorderLayout.CENTER);
+       //THE PIXEL
+    //    JPanel measure = new JPanel();
+    //    measure.setBackground(Color.BLACK);
+    //    measure.setBounds(0, 0, 980, 572);
+    //    form.add(measure);
+
+        frame.add(form);
        //frame.add(topMargin, BorderLayout.NORTH);
-       frame.add(leftMargin, BorderLayout.WEST);
-       frame.add(rightMargin, BorderLayout.EAST);
+       //frame.add(leftMargin, BorderLayout.WEST);
+       //frame.add(rightMargin, BorderLayout.EAST);
 
        frame.setVisible(true);
 
@@ -171,6 +206,11 @@ public class AddClothingItemPage implements ActionListener{
         Object categoryObject = selectedCategory.getSelectedItem();
         Categories selectedString = (Categories) categoryObject;
         System.out.println(e.getSource());
+
+        if(selectedString == null){
+
+            typeChoices.removeAllItems();
+        }
 
         if(selectedString == Categories.TOP){
 
@@ -243,8 +283,78 @@ public class AddClothingItemPage implements ActionListener{
 
 
         }
+
+        if(e.getSource() == addClothingItemButton){
+
+            String message = "The following fields are empty: \n";
+            int emptyFields = 0;
+           
+            if(nameField.getText().isBlank()){
+                message = message + "Name\n";
+                emptyFields++;
+            }
+            if(descriptionField.getText().isBlank()){
+                message = message + "Description\n";
+                emptyFields++;
+            }
+            if(sizeField.getText().isBlank()){
+                message = message + "Size\n";
+                emptyFields++;
+            }
+            if(brandField.getText().isBlank()){
+                message = message + "Brand\n";
+                emptyFields++;
+            }
+            if(colorField.getText().isBlank()){
+                message = message + "Color\n";
+                emptyFields++;
+            }
+            if(categoryChoices.getSelectedItem() == null){
+                message = message + "Category\n";
+                emptyFields++;
+            }
+            if(typeChoices.getSelectedItem() == null){
+                message = message + "Type\n";
+                emptyFields++;
+            }
+
+            if(emptyFields > 0){
+                JOptionPane.showMessageDialog(frame, message);
+            }
+            else{
+                
+                String name = nameField.getText();
+                String description = descriptionField.getText();
+                int quantity = (Integer)quantityOfItem.getValue();
+                String size = sizeField.getText();
+                String brand = brandField.getText(); 
+                String color = colorField.getText();
+                Categories category = categoryChoices.getItemAt(categoryChoices.getSelectedIndex());
+                Types type = typeChoices.getItemAt(typeChoices.getSelectedIndex());
+                Clothing newPiece = new Clothing(name, description, quantity, size, brand, color, category, type);
+                user.addClothingItem(newPiece);
+                FrontPage home = new FrontPage(user);
+                frame.setVisible(false);
+                frame.dispose();
+                
+            }
+
+            
+            
+            
+            
+
+        }
+
+        //takes user back to FrontPage
+        if(e.getSource() == backButton){
+            FrontPage home = new FrontPage(user);
+            frame.setVisible(false);
+            frame.dispose();
+        }
     
         
     }
 
 }
+

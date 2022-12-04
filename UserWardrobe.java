@@ -42,16 +42,16 @@ public class UserWardrobe {
     //takes category as input and will return a string array
     //of the items that fit the input category
     public Object[] getItemsByCategory(Categories category){
-        Object[] categorizedItemNames = new Object[wardrobe.size()];
+        ArrayList<Object> categorizedItemNames = new ArrayList<>();
 
         for(int i = 0; i < wardrobe.size(); i++){
             if(wardrobe.get(i).getCategories() == category){
-                categorizedItemNames[i] = wardrobe.get(i);
+                categorizedItemNames.add(wardrobe.get(i));
             }
             
         }
 
-        return categorizedItemNames;
+        return categorizedItemNames.toArray();
 
     }
 

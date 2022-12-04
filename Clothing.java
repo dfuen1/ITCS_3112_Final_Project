@@ -12,7 +12,8 @@ public class Clothing {
     private static int totalItems = 0;
 
     public Clothing(){
-
+        totalItems++;
+        this.id = totalItems;
     }
 
     public Clothing(String name, String description, int quantity, String size,
