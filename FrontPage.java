@@ -305,12 +305,19 @@ public void actionPerformed(ActionEvent e) {
         deleteClothingItem.setEnabled(false);
             
     }
-
+    //go to AddClothingItemPage frame
     if(e.getSource() == addClothingItem){
         AddClothingItemPage add = new AddClothingItemPage(user);
         frame.setVisible(false);
         frame.dispose();
     }
+
+        //go to EditClothingItemPage frame
+    if(e.getSource() == editClothingItem){
+            EditClothingItemPage edit = new EditClothingItemPage(user, ((Clothing) itemList.getSelectedValue()).getId() );
+            frame.setVisible(false);
+            frame.dispose();
+        }
 
     //delete clothing item button
     if(e.getSource() == deleteClothingItem){

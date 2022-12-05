@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -95,16 +96,36 @@ public class UserWardrobe {
 
     //this "edits" a clothing item by first removing it, saving its id
     //and creating a new clothing item with the same id
-    public void editClothingItem(int id, Clothing editedItem){
-        int savedId = id;
+    // public void editClothingItem(int id, Clothing editedItem){
+    //     int savedId = id;
 
-        removeClothingItem(id);
-        editedItem.setId(savedId);
-        addClothingItem(editedItem);
+    //     removeClothingItem(id);
+    //     editedItem.setId(savedId);
+    //     addClothingItem(editedItem);
 
 
+
+    // }
+
+    public Clothing findClothingPiece(int id){
+        Clothing foundPiece = null;
+
+        for(int i = 0; i < wardrobe.size(); i++){
+            if(wardrobe.get(i).getId() == id){
+                foundPiece = wardrobe.get(i);
+                break;
+            }
+        }
+        return foundPiece;
+    }
+
+
+    //load clothing objects from a text file into the user's wardrobe
+    public void loadClothes(File file){
 
     }
+
+
 
 
 
