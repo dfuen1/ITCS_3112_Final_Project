@@ -2,6 +2,9 @@ import java.io.Writer;
 import java.util.*;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.event.*;
 //import javax.swing.event.ListSelectionEvent;
 //import javax.swing.event.ListSelectionListener;
@@ -40,6 +43,7 @@ private JLabel wardrobeButtonsLabel;
 private Button addClothingItem;
 private Button editClothingItem;
 private Button deleteClothingItem;
+private Button searchButton;
 private JLabel tabIndicator;
 
 //default constructor
@@ -98,7 +102,7 @@ public void initialize(){
 
        //this layouts the buttons within the nav
        navBar.setLayout(new FlowLayout(FlowLayout.CENTER, 2, 5));
-       navBar.setBackground(Color.BLUE);
+       navBar.setBackground(new Color(50, 90, 156));
        //navBar.setBounds(0,90, 600, 90);
        navBar.add(allButton);
        navBar.add(topsButton);
@@ -124,20 +128,24 @@ public void initialize(){
        //----------------TOP AREA---------------------
        Box searchAndNav = Box.createVerticalBox();
        nameDisplay.setBackground(Color.ORANGE);
-       Button searchBarButton = new Button("Search");
-       //default layout of searchBarArea is FlowLayout\
+       searchButton = new Button("Search");
+       searchBarArea.setBackground(new Color(179, 179, 179));
+       //default layout of searchBarArea is FlowLayout
        searchBarArea.add(searchBar);
-       searchBarArea.add(searchBarButton);
+       searchBarArea.add(searchButton);
        nameDisplay.add(displayUserName);
        searchAndNav.add(nameDisplay);
        searchAndNav.add(searchBarArea);
        searchAndNav.add(navBar);
 
+       //add action listener to button
+       searchButton.addActionListener(this);
+
        //----------------MAIN AREA---------------------
        //dimensions of main area: w: 999 or 1000, h: 458
        //since the app will always open with the inventory displayed
        mainArea.setLayout(null);
-       mainArea.setBackground(Color.PINK);
+       mainArea.setBackground(new Color(240, 240, 240));
        tabIndicator = new JLabel("All");
        //tabIndicator.setBorder(BorderFactory.createLineBorder(Color.black));
        tabIndicator.setBounds(200, 30, 300, 50);
@@ -165,7 +173,11 @@ public void initialize(){
        //prevents the text area from being editable
        itemDescription.setEditable(false);
        //insets is an object that represents the margins of a container
-       itemDescription.setMargin(new Insets(10, 10, 10, 10));
+       Border bevel = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+       itemDescription.setBorder(BorderFactory.createCompoundBorder(bevel, BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+       //itemDescription.setBorder(new CompoundBorder(BorderFactory.createLineBorder(Color.black), new Insets(20, 20, 20, 20)));
+       itemDescription.setMargin(new Insets(20, 20, 20, 20));
+       
 
         //----------------WARDROBE EDIT AREA---------------------
         wardrobeButtonsArea = new JPanel();
@@ -334,6 +346,37 @@ public void actionPerformed(ActionEvent e) {
             frame.setVisible(false);
             frame.dispose();
         }
+
+    }
+
+    if(e.getSource() == searchButton){
+        String searchCriteria = searchBar.getText().toUpperCase();
+        //searchCriteria.contain
+
+        //using the string obtained from the search bar, display items
+        //from the wardrobe that contain that string sequence
+
+        ArrayList<Clothing> results = new ArrayList<>();
+
+        for(int i = 0; i < user.getWardrobe().size(); i++){
+            String currentObject = user.getWardrobe().get(i).getName().toUpperCase();
+
+            //if the name of the current object contains the search criteria, add to results 
+            if(currentObject.contains(searchCriteria)){
+                results.add(user.getWardrobe().get(i));
+            }
+
+
+        }
+
+        //show results on main page, results are treated as its own category
+        tabIndicator.setText("Search results for \"" + searchBar.getText() + "\"");
+        itemDescription.setText(" ");
+        itemList.setListData(results.toArray());
+        editClothingItem.setEnabled(false);
+        deleteClothingItem.setEnabled(false);
+
+
 
     }
 }

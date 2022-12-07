@@ -1,6 +1,9 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 public class main{
-    public static void main (String[] args) {
+    public static void main (String[] args) throws Exception{
 
         //DUMMY INFO
         //Parameters of Clothing class
@@ -35,13 +38,63 @@ public class main{
         mainUser.addClothingItem(cl11);
         mainUser.addClothingItem(cl12);
 
+        //UserWardrobe mainUser = new SaveFile().loadUserData("DanielWardrobe.txt");
+
 
         //this is the launching point of the app
         FrontPage starter = new FrontPage(mainUser);
         //AddClothingItemPage test = new AddClothingItemPage(mainUser);
 
 
+        
+
+        
+
 
     } 
+
+    //how to read objects from a text file: https://www.youtube.com/watch?v=klCmA2Eeu70
+
+    // public static UserWardrobe loadUserData(String filename) throws FileNotFoundException{
+
+    //     File file = new File("SaveFiles/" + filename + "/");
+        
+        
+    //     UserWardrobe user = new UserWardrobe("Daniel");
+    //     Scanner scan = new Scanner(file);
+
+    //     //while there are lines for the scanner to skip in the file
+        
+
+    //     while(scan.hasNextLine()){
+
+    //         //get the current line
+    //         String line = scan.nextLine();
+
+    //         //split the parts of the string into indexes of a string array
+    //         String[] objectData = line.split("\\|");
+
+    //         //(String name, String description, int quantity, String size, String brand, String color, Categories category, Types type, int id)
+    //         //create a Clothing object and add set all its appropiate values, then add to wardrobe
+
+    //         String name = objectData[0];
+    //         String description = objectData[1];
+    //         int quantity = Integer.parseInt(objectData[2]);
+    //         String size = objectData[3];
+    //         String brand = objectData[4]; 
+    //         String color = objectData[5];
+    //         String[] cat = objectData[6].split("\\.");
+    //         Categories category = Categories.valueOf(cat[1]);
+    //         String[] typ = objectData[7].split("\\.");
+    //         Types type = Types.valueOf(typ[1]);
+    //         Clothing savedPiece = new Clothing(name, description, quantity, size, brand, color, category, type);
+
+    //         user.addClothingItem(savedPiece);
+
+
+    //     }
+
+    //     return user;
+    // }
 }
 

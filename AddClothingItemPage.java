@@ -1,6 +1,8 @@
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -146,10 +148,9 @@ public class AddClothingItemPage implements ActionListener{
 
 
 
+        //structures the components to appear like a form
        Box form = Box.createVerticalBox();
-       //form.setSize(300, 572);
-       //JPanel form = new JPanel();
-       //form.setLayout(new FlowLayout(FlowLayout.CENTER));
+
        JPanel leftMargin = new JPanel();
        leftMargin.setBackground(new Color(173, 173, 173));
        JPanel rightMargin = new JPanel();
@@ -197,7 +198,6 @@ public class AddClothingItemPage implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
 
         //functionality for the category combo box
         if(e.getSource() == categoryChoices){
@@ -322,7 +322,6 @@ public class AddClothingItemPage implements ActionListener{
                 JOptionPane.showMessageDialog(frame, message);
             }
             else{
-                
                 String name = nameField.getText();
                 String description = descriptionField.getText();
                 int quantity = (Integer)quantityOfItem.getValue();
@@ -333,6 +332,15 @@ public class AddClothingItemPage implements ActionListener{
                 Types type = typeChoices.getItemAt(typeChoices.getSelectedIndex());
                 Clothing newPiece = new Clothing(name, description, quantity, size, brand, color, category, type);
                 user.addClothingItem(newPiece);
+
+                // String saveItem = name + "|" + description + "|" + quantity + "|" + size + "|" + brand +
+                //  "|" + color + category.toString() + "|" + type.toString(); 
+
+                //  SaveFile save = new SaveFile();
+                //  save.writeUserData(saveItem, "DanielWardrobe.txt");
+
+                 
+
                 FrontPage home = new FrontPage(user);
                 frame.setVisible(false);
                 frame.dispose();

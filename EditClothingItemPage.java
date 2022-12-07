@@ -140,7 +140,8 @@ public class EditClothingItemPage implements ActionListener{
        typeChoices = new JComboBox<>(Types.values());
        //typeChoices.setSelectedItem(editedClothingPiece.getType());
        setTypesForCategory((Categories)categoryChoices.getSelectedItem());
-       System.out.println(editedClothingPiece.getType());
+       typeChoices.setSelectedItem(editedClothingPiece.getType());
+       //System.out.println(editedClothingPiece.getType());
        //typeChoices.addActionListener
        typePanel.add(typeLabel);
        typePanel.add(typeChoices);
@@ -155,6 +156,7 @@ public class EditClothingItemPage implements ActionListener{
 
 
 
+        //The box will be used to structure the components into a form
        Box form = Box.createVerticalBox();
        JPanel topMargin = new JPanel();
        topMargin.setBackground(new Color(50, 90, 156));
