@@ -8,6 +8,7 @@ import javax.swing.event.*;
 
 public class AddClothingItemPage implements ActionListener{
     private UserWardrobe user;
+    private SaveFile userSaveFile;
 
     //Java Swing components
     private JFrame frame;
@@ -28,8 +29,9 @@ public class AddClothingItemPage implements ActionListener{
         initialize();
     }
 
-    public AddClothingItemPage(UserWardrobe user){
+    public AddClothingItemPage(UserWardrobe user, SaveFile userSaveFile){
         this.user = user;
+        this.userSaveFile = userSaveFile;
         initialize();
     }
 
@@ -333,15 +335,17 @@ public class AddClothingItemPage implements ActionListener{
                 Clothing newPiece = new Clothing(name, description, quantity, size, brand, color, category, type);
                 user.addClothingItem(newPiece);
 
-                // String saveItem = name + "|" + description + "|" + quantity + "|" + size + "|" + brand +
-                //  "|" + color + category.toString() + "|" + type.toString(); 
+                String saveItem = name + "|" + description + "|" + quantity + "|" + size + "|" + brand +
+                 "|" + color + "|" + category.toString() + "|" + type.toString(); 
 
                 //  SaveFile save = new SaveFile();
                 //  save.writeUserData(saveItem, "DanielWardrobe.txt");
 
-                 
+                //append new data to user's save file
+                userSaveFile.writeUserData(saveItem);
 
-                FrontPage home = new FrontPage(user);
+                //go back to home page with new data 
+                FrontPage home = new FrontPage(user, userSaveFile);
                 frame.setVisible(false);
                 frame.dispose();
                 
@@ -356,7 +360,7 @@ public class AddClothingItemPage implements ActionListener{
 
         //takes user back to FrontPage
         if(e.getSource() == backButton){
-            FrontPage home = new FrontPage(user);
+            FrontPage home = new FrontPage(user, userSaveFile);
             frame.setVisible(false);
             frame.dispose();
         }

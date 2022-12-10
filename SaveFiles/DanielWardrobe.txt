@@ -1,1 +1,8 @@
-|Nike Red Tee|Red Nike Shirt|1|M|Nike|Red|Categories.TOP|Types.TSHIRT
+Nike Red Tee|Red Nike Shirt|1|M|Nike|Red|TOP|TSHIRT
+Nike Cortez|White Nike Cortez shoes from 2014|1|8|Nike|White/Black|FOOTWEAR|SNEAKERS
+Levi Blue Jeans|Baby's Wearing Blue Jeans|1|30x32|Levi's|Medium Wash|BOTTOM|JEANS
+Black Converse|from 2008, still got it|1|9|Converse|Black|FOOTWEAR|SNEAKERS
+Cool Red Shirts|red shirt|7|M|red shirt|red|TOP|SHORT_SLEEVE_SHIRT
+Black Polo|Shirt I use for work|1|M|Port & Company|Black|TOP|SHORT_SLEEVE_SHIRT
+Letterman Jacket|from the 90s|1|L|Mitchell|Red/White|OUTERWEAR|JACKET
+Victory Jersey|Panthers Jersey from '98|1|L|n/a|Black/Blue|TOP|OTHER

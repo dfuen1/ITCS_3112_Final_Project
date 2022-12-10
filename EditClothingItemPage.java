@@ -6,6 +6,7 @@ import javax.swing.event.*;
 
 public class EditClothingItemPage implements ActionListener{
     private UserWardrobe user;
+    private SaveFile userSaveFile;
     private int id;
 
     //Java Swing components
@@ -26,8 +27,9 @@ public class EditClothingItemPage implements ActionListener{
         initialize();
     }
 
-    public EditClothingItemPage(UserWardrobe user, int id){
+    public EditClothingItemPage(UserWardrobe user, SaveFile userSaveFile, int id){
         this.user = user;
+        this.userSaveFile = userSaveFile;
         this.id = id;
         initialize();
     }
@@ -206,7 +208,7 @@ public class EditClothingItemPage implements ActionListener{
         }
 
         if(e.getSource() == backButton){
-            FrontPage home = new FrontPage(user);
+            FrontPage home = new FrontPage(user, userSaveFile);
             frame.setVisible(false);
             frame.dispose();
         }
@@ -222,7 +224,9 @@ public class EditClothingItemPage implements ActionListener{
             editedClothingPiece.setColor(colorField.getText());
             editedClothingPiece.setCategory(categoryChoices.getItemAt(categoryChoices.getSelectedIndex()));
             editedClothingPiece.setType(typeChoices.getItemAt(typeChoices.getSelectedIndex()));
-            FrontPage home = new FrontPage(user);
+            //save changes to save file
+            userSaveFile.overwriteUserData(user);
+            FrontPage home = new FrontPage(user, userSaveFile);
             frame.setVisible(false);
             frame.dispose();
 

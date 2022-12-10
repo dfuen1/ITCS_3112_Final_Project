@@ -16,6 +16,7 @@ import java.awt.event.*;
 
 public class FrontPage implements ActionListener, ListSelectionListener{
 private UserWardrobe user;
+private SaveFile userSaveFile;
 
 //JavaSwing components initialization for access throughout different methods
 private JFrame frame;
@@ -44,6 +45,7 @@ private Button addClothingItem;
 private Button editClothingItem;
 private Button deleteClothingItem;
 private Button searchButton;
+private Button backButton;
 private JLabel tabIndicator;
 
 //default constructor
@@ -51,8 +53,10 @@ public FrontPage(){
    initialize();
 }
 
-public FrontPage(UserWardrobe user){
+public FrontPage(UserWardrobe user, SaveFile userSaveFile){
+
     this.user = user;
+    this.userSaveFile = userSaveFile;
     initialize();
 }
 
@@ -65,7 +69,9 @@ public void initialize(){
     //components
        frame = new JFrame();
        nameDisplay = new JPanel();
+       nameDisplay.setLayout(new FlowLayout(FlowLayout.CENTER));
        displayUserName = new JLabel("Hello " + user.getUsername() + "!");
+       backButton = new Button("Back");
        searchBar = new JTextField(50);
        searchBarArea = new JPanel();
        navBar = new JPanel(); 
@@ -133,12 +139,28 @@ public void initialize(){
        //default layout of searchBarArea is FlowLayout
        searchBarArea.add(searchBar);
        searchBarArea.add(searchButton);
-       nameDisplay.add(displayUserName);
+
+       //nameDisplay panel structuring
+       nameDisplay.setLayout(new BoxLayout(nameDisplay, BoxLayout.X_AXIS));
+       JPanel buttonPanel = new JPanel();
+       buttonPanel.setBackground(Color.ORANGE);
+       buttonPanel.setPreferredSize(new Dimension(30, 35));
+       buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+       buttonPanel.add(backButton);
+       nameDisplay.add(buttonPanel);
+       nameDisplay.add(Box.createHorizontalGlue());
+       nameDisplay.add(displayUserName, BorderLayout.CENTER);
+       nameDisplay.add(Box.createHorizontalGlue());
+       JPanel nameDisplayFiller = new JPanel();
+       nameDisplayFiller.setBackground(Color.ORANGE);
+       nameDisplay.add(nameDisplayFiller);
+
        searchAndNav.add(nameDisplay);
        searchAndNav.add(searchBarArea);
        searchAndNav.add(navBar);
 
        //add action listener to button
+       backButton.addActionListener(this);
        searchButton.addActionListener(this);
 
        //----------------MAIN AREA---------------------
@@ -213,7 +235,7 @@ public void initialize(){
 
 
        //this finally puts everything into the main frame
-       footerArea.setBackground(Color.RED);
+       footerArea.setBackground(new Color(179, 179, 179));
        frame.add(searchAndNav, BorderLayout.NORTH);
        frame.add(mainArea, BorderLayout.CENTER);
        frame.add(footerArea, BorderLayout.SOUTH);
@@ -319,14 +341,14 @@ public void actionPerformed(ActionEvent e) {
     }
     //go to AddClothingItemPage frame
     if(e.getSource() == addClothingItem){
-        AddClothingItemPage add = new AddClothingItemPage(user);
+        AddClothingItemPage add = new AddClothingItemPage(user, userSaveFile);
         frame.setVisible(false);
         frame.dispose();
     }
 
         //go to EditClothingItemPage frame
     if(e.getSource() == editClothingItem){
-            EditClothingItemPage edit = new EditClothingItemPage(user, ((Clothing) itemList.getSelectedValue()).getId() );
+            EditClothingItemPage edit = new EditClothingItemPage(user, userSaveFile, ((Clothing) itemList.getSelectedValue()).getId() );
             frame.setVisible(false);
             frame.dispose();
         }
@@ -340,9 +362,10 @@ public void actionPerformed(ActionEvent e) {
             //casts selected object to a clothing object and extracts ID value to delete
             Clothing selectedClothingPiece = (Clothing) itemList.getSelectedValue();
             user.removeClothingItem(selectedClothingPiece.getId());
+            userSaveFile.overwriteUserData(user);
 
             //"refreshes the page" but disposing the old and create a new JFrame
-            FrontPage refresh = new FrontPage(user);
+            FrontPage refresh = new FrontPage(user, userSaveFile);
             frame.setVisible(false);
             frame.dispose();
         }
@@ -378,6 +401,12 @@ public void actionPerformed(ActionEvent e) {
 
 
 
+    }
+
+    if(e.getSource() == backButton){
+        UserSelect backToSelect = new UserSelect();
+        frame.setVisible(false);
+        frame.dispose();
     }
 }
 
