@@ -1,14 +1,15 @@
-Nike Cortez|White Nike Cortez shoes from 2014|1|8|Nike|White/Black|FOOTWEAR|SNEAKERS
 Levi Blue Jeans|Baby's Wearing Blue Jeans|1|30x32|Levi's|Medium Wash|BOTTOM|JEANS
 Levi Black Jeans|Baby's Wearing Black Jeans|1|30x32|Levi's|Black|BOTTOM|JEANS
 Levi Red Jeans|Baby's Wearing Red Jeans|1|30x32|Levi's|Red|BOTTOM|JEANS
 Birkenstock Sandals|Jesus Sandals|1|8|Birkenstock|Brown|FOOTWEAR|SANDALS
 Hanes Black Boxers|Boxers|3|M|Hanes|Black|UNDERGARMENTS|UNDERWEAR
 Hanes Gray Boxers|Boxers but gray|4|M|Hanes|Gray|UNDERGARMENTS|UNDERWEAR
-Green Overalls|Overall Enthusiasm, Overall Enthusiasm|1|M|Lee's|Green|ONE_PIECE|OVERALLS
+Blue Overalls|Overall Enthusiasm, Overall Enthusiasm|1|M|Lee's|Blue|ONE_PIECE|OVERALLS
 Black Bomber Jacket|Slightly distressed, from the 90s|1|M|Capital Sun|Black|OUTERWEAR|JACKET
 Red Sweater|My dad's old sweater|1|L|Jazzerman|Maroon|OUTERWEAR|SWEATER
 Momma Chain|My mom's old chain|1|L|N/A|Gold|ACCESSORIES|OTHER
 Push P Tee|Novelty Tee of  an old meme|1|L|Hanes|Black|TOP|TSHIRT
 Gray Gap Hoodie|Looks exactly like the one Jeese Eisenberg wears in "The Social Network"|1|L|Gap|Gray|OUTERWEAR|HOODIE
+Victory Jersey|Panthers Jersey from '98|1|L|n/a|Black/Blue|TOP|OTHER
 Sun Hat|so hot|1|L|n/a|Red/Orange/Black|ACCESSORIES|HATS
+Hawaiian Shirts|ol' reliable|2|M|Tommy Bahama|Yellow/Green|TOP|SHORT_SLEEVE_SHIRT
